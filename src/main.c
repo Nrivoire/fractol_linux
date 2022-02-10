@@ -11,7 +11,6 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "../includes/fractol.h"
 
 void			free_env(t_env *v)
@@ -70,7 +69,7 @@ void			initialisation(t_env *v)
 
 void			make_mlx_hook(t_env *v)
 {
-	mlx_hook(v->mlx->win_ptr, 2, 0, key_press, v);
+	mlx_hook(v->mlx->win_ptr, 2, (1L << 0), key_press, v);
 	mlx_key_hook(v->mlx->win_ptr, key_release, v);
 	mlx_hook(v->mlx->win_ptr, 6, (1L << 6), motion_notify, v);
 	mlx_hook(v->mlx->win_ptr, 4, (1L << 2), button_event, v);
@@ -84,19 +83,13 @@ int				main(int av, char **ac)
 
 	if (av != 2)
 		ft_error("usage: ./fractol [fractal : mandelbrot,julia,burning_ship]");
-//	if (!(v = ft_memalloc(sizeof(t_env))))
-//		ft_error("struct t_env ft_memalloc error");
-	//initialisation(v);
-	//v->arg = ac[1];
-	//if (!(v->mlx = ft_memalloc(sizeof(t_mlx))))
-	//	ft_error("struct t_mlx ft_memalloc error");
-	//v->mlx->mlx_ptr = mlx_init();
-	void *init;
-	void *t;
-
-	init = mlx_init();
-	t = mlx_new_window(init, 1000, 1000, "fractol");
-	exit(0);
+	if (!(v = ft_memalloc(sizeof(t_env))))
+		ft_error("struct t_env ft_memalloc error");
+	initialisation(v);
+	v->arg = ac[1];
+	if (!(v->mlx = ft_memalloc(sizeof(t_mlx))))
+		ft_error("struct t_mlx ft_memalloc error");
+	v->mlx->mlx_ptr = mlx_init();
 	v->mlx->win_ptr = mlx_new_window(v->mlx->mlx_ptr, 1000, 1000, "fractol");
 	ft_create_img(v->mlx->mlx_ptr, &v->mlx->img, 1000, 1000);
 	if (ft_strcmp(ac[1], "julia") == 0)

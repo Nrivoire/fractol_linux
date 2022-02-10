@@ -17,7 +17,6 @@
 */
 
 #include	"mlx_int.h"
-#include <stdio.h>
 
 
 void	*mlx_new_window(t_xvar *xvar,int size_x,int size_y,char *title)
@@ -26,12 +25,9 @@ void	*mlx_new_window(t_xvar *xvar,int size_x,int size_y,char *title)
 	XSetWindowAttributes	xswa;
 	XGCValues				xgcv;
 
-	printf("are your there??\n");
 	xswa.background_pixel = 0;
 	xswa.border_pixel = -1;
 	xswa.colormap = xvar->cmap;
-	printf("test\n");
-	exit(0);
 	/*
 	xswa.event_mask = ButtonPressMask | ButtonReleaseMask | ExposureMask |
 		KeyPressMask | KeyReleaseMask | StructureNotifyMask;
@@ -40,7 +36,6 @@ void	*mlx_new_window(t_xvar *xvar,int size_x,int size_y,char *title)
 	xswa.event_mask = 0xFFFFFF;	/* all events */
 	if (!(new_win = malloc(sizeof(*new_win))))
 		return ((void *)0);
-	printf("yep mallco worké\n");
 	new_win->window = XCreateWindow(xvar->display,xvar->root,0,0,size_x,size_y,
 					0,CopyFromParent,InputOutput,xvar->visual,
 					CWEventMask|CWBackPixel|CWBorderPixel|

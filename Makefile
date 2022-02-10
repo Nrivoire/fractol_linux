@@ -39,14 +39,15 @@ INC_NAME = fractol.h keys.h
 INC = $(addprefix $(INC_PATH)/,$(INC_NAME))
 
 CPPFLAGS = -I $(INC_PATH)
-LDFLAGS = -L libft #-g3 -fsanitize=address
+LDFLAGS = -L libft
 LDLIBS = -lft
 #MACOS
 #MINILIBX = -I includes -I minilibx_macos -L minilibx_macos -lmlx -framework OpenGL -framework AppKit
-MINILIBX = -lft -lmlx -lm -lbsd -lX11 -lXext
+#LINUX
+MLXFLAG = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 #	Compiler
-CC = gcc -g
+CC = clang
 #MACOS
 #CFLAGS = -Wall -Wextra -Werror -O3 -I. #-g3 -fsanitize=address
 #LINUX
@@ -66,10 +67,10 @@ CFLAGS = -Wall -Wextra #-g3 -fsanitize=address
 all: libft.a $(NAME)
 
 #$(NAME): $(OBJ)
-#	@$(CC) $(LDFLAGS) $(MINILIBX) $(LDLIBS) $^ -o $@
+#	@$(CC) $(LDFLAGS) $(MLXFLAG) $(LDLIBS) $^ -o $@
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -Llibft -Lmlx_linux -L/usr/lib -Imlx_linux $(MINILIBX) -o $(NAME)
+	$(CC) $(OBJ) $(LDFLAGS) $(MLXFLAG) $(LDLIBS) -o $(NAME)
 
 libft.a:
 	@make -C ./libft/
@@ -82,7 +83,7 @@ libft.a:
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INC)
 	@mkdir -p $(OBJ_PATH)
 	@mkdir -p $(OBJ_PATH)/$(SRC_SUP)
-	$(CC) -Wall -Wextra -g -Imlx_linux -O3 -c $< -o $@
+	$(CC) -Wall -Wextra $(CPPFLAGS) -g -Imlx_linux -O3 -c $< -o $@
 
 clean:
 	@make -C libft clean
